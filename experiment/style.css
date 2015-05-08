@@ -124,6 +124,10 @@ span#question {
 	height: 100px;
 }
 
+#demographicsForm {
+	font-size: 14px;
+}
+
 /*style beginning slides*/
 div.beginning img {
 	margin: auto;
@@ -202,11 +206,12 @@ table#resultsTable {
 
 /*center buttons*/
 .button {
+	margin-top: 120px;
 	text-align: center;
 }
 
-#characters .button {
-	margin-top: 120px;
+#consent .button {
+	margin-top: 10px;
 }
 
 /*display images during character introduction and results slides*/
@@ -232,13 +237,14 @@ img#buttons {
 
 /*display images during results slide*/
 #results img {
-	height: 70px;
+	height: 47px;
 	/*border: solid black 2px;*/
 }
 
 /*display response buttons during experiment stage slides*/
 #stage button, #practice button {
-	margin: 10px;
+	margin-top: 20px;
+	width: 110px;
 	padding: 5px!important;
 }
 

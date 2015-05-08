@@ -12,25 +12,26 @@ $('.slide#results button').click(function() {
 var resultsSlide = {
 	list: characters,
 	charMeans: {
-		charlie_dog: [],
-		delores_gleitman_deceased: [],
-		fetus: [],
-		gerald_schiff_pvs: [],
-		god: [],
-		green_frog: [],
-		kismet_robot: [],
-		nicholas_gannon_baby: [],
-		samantha_hill_girl: [],
-		sharon_harvey_woman: [],
-		toby_chimp: [],
-		todd_billingsley_man: [],
-		you: []
+		grownup: NaN,
+		kid: NaN,
+		baby: NaN,
+		dog: NaN,
+		bear: NaN,
+		bug: NaN,
+		robot: NaN,
+		computer: NaN,
+		car: NaN,
+		// tree: NaN,
+		// moon: NaN,
+		// mountain: NaN,
+		// teddybear: NaN,
+		stapler: NaN
 	},
 	charSorted: [],
 	calculateMeans: function() {
 		for (i in this.charMeans) {
 			var total = 0;
-			array = experiment.newData.charScores[i];
+			var array = experiment.newData.charScores[i]; console.log(array);
 			for (j = 0; j < array.length; j++) {
 				total += array[j];
 			}

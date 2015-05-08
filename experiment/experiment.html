@@ -31,7 +31,7 @@
       
       <h1 id='title-text'>Stanford University Department of Psychology</h1>
       
-      <p class="fun-text">Thank you for participating in our study!<br />It should take you about 3-5 minutes to complete.<br />Click the "Start" button to begin.</p>
+      <p class="fun-text">Thank you for participating in our study!<br />It should take you about 3-5 minutes to complete.</p>
       
       <br />
       <div class="button" id="start">
@@ -57,16 +57,13 @@
     
     </div>
 
-<!-- pre-study: present description of mind surveys ("instructions" slide - original wording) -->
+<!-- pre-study: present general description of games -->
 
     <div class="slide" id="instructions">
       
-      <h1 id='title-text'>Mind Survey</h1>
+      <h1 id='title-text'>Instructions</h1>
       
-      <p class="fun-text" id="survey-descrip">In this study, you will be asked to consider whether different kinds of things (e.g., a dog, a computer) have certain kinds of abilities or experiences.</p>
-      <p class="fun-text" id="survey-descrip">Please note that this study is also being conducted with children, so the questions in the survey have been written in simple language and illustrated with pictures. First, you will answer 2 easy "practice questions" that we start children off with. Then, you will play 3 very short "games," with 7-8 questions per game.</p>
-
-      <p class="fun-text" id="survey-descrip">Click the "Next" button to see the 10 pictures you will be thinking about during this survey.</p>
+      <p class="fun-text" id="survey-descrip">In this study, you will be asked to consider whether different kinds of things (e.g., a dog, a computer) have certain kinds of abilities or experiences. Click the "Next" button to see the 10 pictures you will be thinking about during this survey.</p>
 
       <div class="button" id="form">
         <button type="submit" class="btn btn-default">Next</button>
@@ -89,6 +86,22 @@
     </div>
 
   </div>
+
+<!-- pre-study: simple language -->
+
+    <div class="slide" id="instructions2">
+      
+      <h1 id='title-text'>Instructions</h1>
+      
+      <p class="fun-text" id="survey-descrip">You are now ready to begin!</p>
+      <p class="fun-text" id="survey-descrip">Please note that this study is also being conducted with children, so the questions in the survey have been written in simple language and illustrated with pictures.</p>
+      <p class="fun-text" id="survey-descrip" style="padding-bottom:20px;">First, you will answer 2 easy "practice questions" that we start children off with. Then, you will play 3 very short "games," with 7-8 questions per game.</p>
+
+      <div class="button" id="form">
+        <button type="submit" class="btn btn-default">Next</button>
+      </div>
+    
+    </div>
 
 <!-- pre-study: practice -->
 
@@ -197,11 +210,11 @@
 
     <div class="slide" id="demographics">
       <h1>Demographic Survey</h1>
-      <p class="subtitle">Before you view your rankings, we would like to know a little more about your background.</p>
+      <p class="fun-text" id="survey-descrip">Before you view your rankings, we would like to know a little more about your background.</p>
       
       <!-- Think about culling this list! -->
 
-       <form role="form" id = "demographicsForm">
+       <form role="form" id="demographicsForm">
         
         <div class="control-group">
           <label for="age">Age:</label>
@@ -665,7 +678,7 @@
 
       <h1>Your Results</h1>
 
-      <p class="fun-text" id="ranking-intro">Here's how you ranked these characters, from least to most capable of <span>{{}}</span>:</p>
+      <p class="fun-text" id="survey-descrip">Here's how you ranked these characters, from least to most capable of thinking, having feelings, and getting hungry:</p>
 
       <table>
         <tr>
@@ -677,19 +690,16 @@
       <div>
         <table id="resultsTable">
           <colgroup>
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
-            <col style="width:7%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
           </colgroup>
           <tbody>
             <tr>
@@ -722,15 +732,6 @@
               </td>
               <td>
                 <div><img id="rank10"/></div>
-              </td>
-              <td>
-                <div><img id="rank11"/></div>
-              </td>
-              <td>
-                <div><img id="rank12"/></div>
-              </td>
-              <td>
-                <div><img id="rank13"/></div>
               </td>
             </tr>
           </tbody>

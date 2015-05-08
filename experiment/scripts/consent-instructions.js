@@ -27,3 +27,9 @@ $('.slide#consent button').click(function() {
 		window.scrollTo(0, 0);
 		showSlide('instructions');
 });
+
+$('.slide#instructions2 button').click(function() {
+	if(turk.previewMode === false) {
+		practiceSlide.next();
+	}
+});

@@ -109,10 +109,10 @@ var charactersSlide = {
 	},
 	end: function() {
 
-		practiceSlide.next();
+		showSlide("instructions2");
 
 	},
-	next: function() { console.log("next!")
+	next: function() {
 
 		if (charactersSlide.trials.length === 0) {
 
