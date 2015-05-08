@@ -116,7 +116,7 @@ var experiment = {
 
 					// choose a random permutation from the list
 					randomPermutation = randomElementNR(allPermutations);
-					console.log(randomPermutation);
+					// console.log(randomPermutation);
 					errorLog = [];
 
 					// check whether there are overlaps

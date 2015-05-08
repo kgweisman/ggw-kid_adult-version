@@ -31,7 +31,7 @@ var resultsSlide = {
 	calculateMeans: function() {
 		for (i in this.charMeans) {
 			var total = 0;
-			var array = experiment.newData.charScores[i]; console.log(array);
+			var array = experiment.newData.charScores[i]; 
 			for (j = 0; j < array.length; j++) {
 				total += array[j];
 			}
