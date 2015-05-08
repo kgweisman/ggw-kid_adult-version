@@ -53,7 +53,7 @@ function onLoadedOne() {
 
 // define a function that will get called once all images have been successfully loaded
 function onLoadedAll() {
-	showSlide("start");
+	showSlide("consent");
 }
 
 /* preload images */

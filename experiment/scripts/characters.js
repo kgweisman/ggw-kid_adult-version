@@ -103,7 +103,7 @@ var charactersSlide = {
 
 		// create random order
 		for (i = 0; i < 10; i++) {
-			this.trials.push(randomElementNR(this.list));
+			charactersSlide.trials.push(randomElementNR(charactersSlide.list));
 		};
 
 	},
@@ -112,15 +112,15 @@ var charactersSlide = {
 		practiceSlide.next();
 
 	},
-	next: function() {
+	next: function() { console.log("next!")
 
-		if (this.trials.length === 0) {
+		if (charactersSlide.trials.length === 0) {
 
 			charactersSlide.end();
 
 		} else {
 
-			var currentChar = this.trials.shift();
+			var currentChar = charactersSlide.trials.shift();
 
 			// set text and images for this trial
 			$("#characters h2#character").text(currentChar.charTitle);

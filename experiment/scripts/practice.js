@@ -29,15 +29,15 @@ var practiceSlide = {
 	},
 	next: function() {
 
-		if(this.trials.length === 0) {
+		if(practiceSlide.trials.length === 0) {
 
 			practiceSlide.end();
 
 		} else {
 
 			// set pair and predicate for this practice trial
-			var currentPair = this.trials.shift();
-			var currentPredicate = this.predicates.shift();
+			var currentPair = practiceSlide.trials.shift();
+			var currentPredicate = practiceSlide.predicates.shift();
 
 			// create place to store data for this trial
 			var data = {
