@@ -30,8 +30,8 @@ function addSequence(seqName, predicateOrder, subsetOrder) {
 }
 
 sequences = {};
-addSequence("sequence1", [conditions.thinking, conditions.feelings, conditions.hunger], 
-	[pairsSubsetA, pairsSubsetE, pairsSubsetB]);
+// addSequence("sequence1", [conditions.thinking, conditions.feelings, conditions.hunger], 
+// 	[pairsSubsetA, pairsSubsetE, pairsSubsetB]);
 addSequence("sequence2", [conditions.thinking, conditions.hunger, conditions.feelings], 
 	[pairsSubsetB, pairsSubsetC, pairsSubsetA]);
 // addSequence("sequence3", [conditions.feelings, conditions.thinking, conditions.hunger], 
