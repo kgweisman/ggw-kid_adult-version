@@ -38,8 +38,8 @@ var previewSlide = {
 }
 
 // create unique turker id
-// var ut_id = "ggw-rep01";
-var ut_id = "dummy0202"l
+var ut_id = "ggw-rep01";
+// var ut_id = "dummy0202"
 
 // show preview slide
 previewSlide.showPreview();
