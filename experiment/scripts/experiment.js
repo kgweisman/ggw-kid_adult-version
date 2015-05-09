@@ -28,15 +28,19 @@ var experiment = {
 
 		// demographic information about participant
 		subid: "",
+		age: "",
 		gender: "",
-		ethnicity: "",
-		dateOfBirth: "",
+		ethnicity: [],
+		job: "",
+		education: "",
+		ethnicity: [],
+		religionChild: [],
+		religionNow: [],
+		country: "",
+		englishNative: "",
+		comments: "",
 		dateOfTest: date.getMonth()+1+"/"+date.getDate()+"/"+date.getFullYear(),
 		timeOfTest: date.getHours()+":"+date.getMinutes(),
-		testingSite: "",
-		experimenter: "",
-		trialComments: "",
-		sessionComments: "",
 
 		// trial by trial data
 		trialData: [],
