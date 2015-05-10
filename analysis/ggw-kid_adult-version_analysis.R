@@ -31,27 +31,13 @@ dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/gg
 
 glimpse(dd)
 
-# --- FILTERING BY RTS --------------------------------------------------------
-
-# # filter out trials where log_rt < 2SDs below mean
-# dd = dd %>%
-#   filter(under_lower == 0)
-# 
-# View(dd %>% group_by(subid) %>% summarise(trials_completed = length(log_rt)))
-
-# # filter out participants where >50% trials have log_rt < 2SDs below mean
-# dd = dd %>%
-#   filter(prop_under > .5)
-# 
-# View(dd %>% group_by(subid) %>% summarise(trials_completed = length(log_rt)))
-
 # --- FILTERING BY COUNTRY ----------------------------------------------------
 
-d_us = d %>% filter(country == "us")
-dd_us = dd %>% filter(country == "us")
-
-d_india = d %>% filter(country == "india")
-dd_india = dd %>% filter(country == "india")
+# d_us = d %>% filter(country == "us")
+# dd_us = dd %>% filter(country == "us")
+# 
+# d_india = d %>% filter(country == "india")
+# dd_india = dd %>% filter(country == "india")
 
 # set group of interest
 # # ... to US:
@@ -245,7 +231,8 @@ View(demo %>%
 # FROM GGW2007: "For each survey, each character appeared in 12 different comparisons, and mean relative ratings were computed for each character across all respondents to that survey. We merged data sets from the 18 mental capacity surveys to compute correlations between mental capacities across the characters, and submitted these to principal components factor analysis with varimax rotation." (SOM p. 3)
 
 # extract factors
-pca_A2 = principal(d1, nfactors = 2, rotate = "varimax"); pca_A2
+# NOTE: could play with rotation here...
+pca_A2 = principal(d1, nfactors = 2, rotate = "none"); pca_A2
 
 # extract eigenvalues
 pca_A2$values
@@ -345,10 +332,12 @@ dissim <- dissim %>%
 dissim = dissim[, c(1, 11, 2:10)]
 
 # rename rows and columns
-names = sort(charsort, decreasing = FALSE)[names != "strawberries" &
-                                             names != "grapes" &
-                                             names != "icecream" &
-                                             names != "pizza"]
+names = sort(charsort, decreasing = FALSE)
+names = names[names != "strawberries"]
+names = names[names != "grapes"]
+names = names[names != "icecream"]
+names = names[names != "pizza"]
+
 dissim = dissim[-1]
 rownames(dissim) = names
 colnames(dissim) = names
@@ -450,10 +439,6 @@ dissim_thinking <- dissim_thinking %>%
 dissim_thinking = dissim_thinking[, c(1, 11, 2:10)]
 
 # rename rows and columns
-names = sort(charsort, decreasing = FALSE)[names != "strawberries" &
-                                             names != "grapes" &
-                                             names != "icecream" &
-                                             names != "pizza"]
 dissim_thinking = dissim_thinking[-1]
 rownames(dissim_thinking) = names
 colnames(dissim_thinking) = names
@@ -514,10 +499,6 @@ dissim_feelings <- dissim_feelings %>%
 dissim_feelings = dissim_feelings[, c(1, 11, 2:10)]
 
 # rename rows and columns
-names = sort(charsort, decreasing = FALSE)[names != "strawberries" &
-                                             names != "grapes" &
-                                             names != "icecream" &
-                                             names != "pizza"]
 dissim_feelings = dissim_feelings[-1]
 rownames(dissim_feelings) = names
 colnames(dissim_feelings) = names
@@ -578,10 +559,6 @@ dissim_hunger <- dissim_hunger %>%
 dissim_hunger = dissim_hunger[, c(1, 11, 2:10)]
 
 # rename rows and columns
-names = sort(charsort, decreasing = FALSE)[names != "strawberries" &
-                                             names != "grapes" &
-                                             names != "icecream" &
-                                             names != "pizza"]
 dissim_hunger = dissim_hunger[-1]
 rownames(dissim_hunger) = names
 colnames(dissim_hunger) = names

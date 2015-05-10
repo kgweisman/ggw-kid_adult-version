@@ -139,18 +139,43 @@ d_tidy = d_us_run_01 %>%
 
 glimpse(d_tidy)
 
+# --- EVENING OUT CONDITION ASSIGNMENT ----------------------------------------
+
+# view comments
+comments = d_tidy %>%
+  #   filter(country == "india") %>%
+  select(sequence, subid, comments) %>%
+  distinct() %>%
+  filter(comments != "NA")
+# View(comments)
+
+# exclude people who said they had problems loading pictures
+# NOTE: make sure to redo whenever new participants are added!!
+d_tidy = d_tidy %>%
+  filter(subid != "us_run_01_10",
+         subid != "us_run_01_34")
+
+# randomly choose N participants from each sequence
+n = 10 # set number to choose
+subidList = d_tidy %>%
+  select(sequence, subid) %>%
+  distinct() %>%
+  group_by(sequence) %>%
+  sample_n(n, replace = FALSE)
+
+d_tidy = d_tidy %>%
+  filter(is.element(subid, subidList$subid))
+  
+# check
+d_tidy %>% group_by(sequence) %>% select(subid) %>% unique() %>% summarise(count = length(subid))
+
 # --- WRITING ANONYMIZED CSV --------------------------------------------------
 
-# write to de-identified csv file
+# write subidList to csv file
+write.csv(subidList, "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/ggw-kid_adult-version/data/randomized_subidList.csv")
+
+# write data to de-identified csv file
 write.csv(d_tidy, "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/ggw-kid_adult-version/data/run-01_2015-05-09_data_anonymized.csv")
 
 d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/ggw-kid_adult-version/data/run-01_2015-05-09_data_anonymized.csv")[-1] # get rid of column of obs numbers
 
-# # view comments
-# comments = d %>%
-# #   filter(country == "india") %>%
-#   select(comments, sequence, subid) %>%
-#   distinct() %>%
-#   filter(comments != "NA")
-# 
-# View(comments)

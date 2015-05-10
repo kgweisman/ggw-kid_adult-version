@@ -127,8 +127,21 @@ d_tidy = d_us_run_01 %>%
     job = factor(job)
   )
 
+# --- EVENING OUT CONDITION ASSIGNMENT ----------------------------------------
+
+# import subidList from first formatting file
+subidList = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/ggw-kid_adult-version/data/randomized_subidList.csv")[-1]
+
+# filter by subidList
+d_tidy = d_tidy %>%
+  filter(is.element(subid, subidList$subid))
+
+# check
+d_tidy %>% group_by(sequence) %>% select(subid) %>% unique() %>% summarise(count = length(subid))
+
+# --- WRITING ANONYMIZED CSV --------------------------------------------------
+
 # write to de-identified csv file
 write.csv(d_tidy, "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/ggw-kid_adult-version/data/run-01_2015-05-09_charmeans.csv")
 
 d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/ggw-kid_adult-version/data/run-01_2015-05-09_charmeans.csv")[-1] # get rid of column of obs numbers
-
