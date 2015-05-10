@@ -48,18 +48,6 @@ glimpse(dd)
 # d = d_india
 # dd = dd_india
 
-# --- FILTERING BY COMPREHENSION CHECK ----------------------------------------
-# NOTE: not applicable as of 2015-05-09
-
-# d_comp2 = d %>% filter(compCheckCount < 2)
-# dd_comp2 = dd %>% filter(compCheckCount < 2)
-
-# d = d_comp2
-# dd = dd_comp2
-
-# d_india = d_india %>% filter(compCheckCount < 2)
-# dd_india = dd_india %>% filter(compCheckCount < 2)
-
 # --- FILTERING BY ETHNICITY --------------------------------------------------
 
 d_white = d %>%
@@ -226,12 +214,12 @@ View(demo %>%
 
 # --- PRINCIPAL COMPONENTS ANALYSIS A: ORIGINAL GGW2007 ----------------------
 
-# --------> 2-factor PCA (varimax rotation, using principal) ----------
+# --------> 2-factor PCA (NO rotation, using principal) ----------
 
 # FROM GGW2007: "For each survey, each character appeared in 12 different comparisons, and mean relative ratings were computed for each character across all respondents to that survey. We merged data sets from the 18 mental capacity surveys to compute correlations between mental capacities across the characters, and submitted these to principal components factor analysis with varimax rotation." (SOM p. 3)
 
 # extract factors
-# NOTE: could play with rotation here...
+# NOTE: UNROTATED
 pca_A2 = principal(d1, nfactors = 2, rotate = "none"); pca_A2
 
 # extract eigenvalues
@@ -267,6 +255,62 @@ ggplot(data.frame(pca_A2$scores), aes(x = PC1, y = PC2, label = rownames(d1))) +
 
 # re-plot characters with rescaling (as in GGW2007 original), PC1 on y-axis
 ggplot(data.frame(pca_A2$scores), 
+       aes(x = rescale(PC1, to = c(0,1)), 
+           y = rescale(PC2, to = c(0,1)), 
+           label = rownames(d1))) +
+  geom_point() +
+  geom_text(angle = 0,
+            vjust = -1,
+            size = 6) +
+  xlim(-0.01, 1.01) +
+  ylim(-0.01, 1.01) +
+  theme_bw() +
+  theme(text = element_text(size = 20)) +
+  labs(title = "Adjusted character factor scores\n",
+       x = "\nPrincipal Component 1, rescaled",
+       y = "Principal Component 2, rescaled\n")
+
+# --------> 2-factor PCA (varimax rotation, using principal) ----------
+
+# FROM GGW2007: "For each survey, each character appeared in 12 different comparisons, and mean relative ratings were computed for each character across all respondents to that survey. We merged data sets from the 18 mental capacity surveys to compute correlations between mental capacities across the characters, and submitted these to principal components factor analysis with varimax rotation." (SOM p. 3)
+
+# extract factors
+# NOTE: ROTATED
+pca_A2_rot = principal(d1, nfactors = 2, rotate = "varimax"); pca_A2_rot
+
+# extract eigenvalues
+pca_A2_rot$values
+
+# extract PCA loadings
+pca_A2_rot_pc1 = pca_A2_rot$loadings[,1]; sort(pca_A2_rot_pc1)
+pca_A2_rot_pc2 = pca_A2_rot$loadings[,2]; sort(pca_A2_rot_pc2)
+
+# --------------->-> plots ----------------------------------------------------
+
+# plot PCs against each other
+# NOTE: need to adjust "1:18" depending on how many conditions are run
+ggplot(data.frame(pca_A2_rot$loadings[1:3,]), aes(x = PC1, y = PC2, label = names(d1))) +
+  geom_text() +
+  theme_bw() +
+  labs(title = "Factor loadings\n",
+       x = "\nPrincipal Component 2",
+       y = "Principal Component 1\n")
+
+# FROM GGW2007: "We used the regression approach to estimate factor scores for each character." (SOM p. 3) 
+# ?principal confirms that "component scores are found by regression"
+
+# plot characters by principal components
+ggplot(data.frame(pca_A2_rot$scores), aes(x = PC1, y = PC2, label = rownames(d1))) +
+  geom_text() +
+  theme_bw() +
+  labs(title = "Raw character factor scores\n",
+       x = "\nPrincipal Component 2",
+       y = "Principal Component 1\n")
+
+# FROM GGW2007: "For ease of interpretation, factor scores in Figure 1 were adjusted to be anchored at 0 and 1" (SOM p. 3)
+
+# re-plot characters with rescaling (as in GGW2007 original), PC1 on y-axis
+ggplot(data.frame(pca_A2_rot$scores), 
        aes(x = rescale(PC1, to = c(0,1)), 
            y = rescale(PC2, to = c(0,1)), 
            label = rownames(d1))) +

@@ -139,7 +139,7 @@ d_tidy = d_us_run_01 %>%
 
 glimpse(d_tidy)
 
-# --- EVENING OUT CONDITION ASSIGNMENT ----------------------------------------
+# --- FILTERING BY REPORTED PROBLEMS AND BY PRACTICE TRIAL #1 (COLDER) --------
 
 # view comments
 comments = d_tidy %>%
@@ -154,6 +154,25 @@ comments = d_tidy %>%
 d_tidy = d_tidy %>%
   filter(subid != "us_run_01_10",
          subid != "us_run_01_34")
+
+subidsToKeep = d_tidy %>%
+  filter(predicate == "colder") %>%
+  mutate(drop = ifelse(leftCharacter == "icecream",
+                       ifelse(responseNum >= 0, 
+                              "drop", 
+                              "keep"),
+                       ifelse(rightCharacter == "icecream",
+                              ifelse(responseNum <= 0,
+                                     "drop",
+                                     "keep"),
+                              NA))) %>%
+  select(sequence, subid, drop) %>%
+  filter(drop != "drop")
+                       
+d_tidy = d_tidy %>%
+  filter(is.element(subid, subidsToKeep$subid))
+
+# --- EVENING OUT CONDITION ASSIGNMENT ----------------------------------------
 
 # randomly choose N participants from each sequence
 n = 10 # set number to choose
