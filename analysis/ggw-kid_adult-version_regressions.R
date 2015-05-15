@@ -158,7 +158,7 @@ print(d1)
 ##################################################### regression analyses #####
 
 # read in contrasts
-c0 = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/Stim development/analysis/contrasts 2015-05-14.csv")
+c0 = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/Stim development/analysis/contrasts 2015-05-15.csv")
 
 c1 = c0 %>% arrange(pair)
 rownames(c1) = c1[,1]
@@ -385,11 +385,16 @@ d1 = dd %>%
                           "car.stapler",
                           NA),
                         NA)))))))))) %>%
-  mutate(pair = factor(pair))
+  mutate(pair = factor(pair),
+         responseNumFlip = 
+           ifelse(
+             substr(leftCharacter,1,3) == substr(pair,1,3),
+             responseNum,
+             -1 * responseNum))
 
 # set contrasts ----
-contrasts(d1$pair) = as.matrix(c1)
+# contrasts(d1$pair) = as.matrix(c1)
 
-r0 = lm(responseNum ~ pair, d1); summary(r0)
-r1 = lmer(responseNum ~ pair + (1 | subid), d1); summary(r1)
+r0 = lm(responseNumFlip ~ pair, d1); summary(r0)
+r1 = lmer(responseNumFlip ~ pair + (1 | subid), d1); summary(r1)
 
