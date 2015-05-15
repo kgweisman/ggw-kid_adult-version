@@ -157,8 +157,15 @@ print(d1)
 
 ##################################################### regression analyses #####
 
-# read in contrasts
-c0 = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/Stim development/analysis/contrasts 2015-05-15.csv")
+# read in contrasts: adult vs. children (kid and baby)
+c0a = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/Stim development/analysis/contrasts 2015-05-15a.csv")
+
+# read in contrasts: baby vs. non-babies (kid and adult)
+c0b = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-kid/Stim development/analysis/contrasts 2015-05-15b.csv")
+
+# choose contrast to use
+# c0 = c0a
+c0 = c0b
 
 c1 = c0 %>% arrange(pair)
 rownames(c1) = c1[,1]
