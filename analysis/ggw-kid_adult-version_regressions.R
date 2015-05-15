@@ -393,6 +393,7 @@ d1 = dd %>%
                           NA),
                         NA)))))))))) %>%
   mutate(pair = factor(pair),
+         predicate = factor(predicate),
          responseNumFlip = 
            ifelse(
              substr(leftCharacter,1,3) == substr(pair,1,3),
@@ -401,7 +402,13 @@ d1 = dd %>%
 
 # set contrasts ----
 contrasts(d1$pair) = as.matrix(c1)
+contrasts(d1$predicate) = cbind(bio.v.nonbio = c(-1,2,-1),
+                                think.v.feel = c(1,0,-1))
 
 r0 = lm(responseNumFlip ~ pair, d1); summary(r0)
 r1 = lmer(responseNumFlip ~ pair + (1 | subid), d1); summary(r1)
-
+# View(as.matrix(summary(r1)$coefficients))
+r2 = lmer(responseNumFlip ~ pair + predicate + (1 | subid), d1); summary(r2)
+r3 = lmer(responseNumFlip ~ pair * predicate + (1 | subid), d1); summary(r3)
+anova(r1, r2, r3)
+  
