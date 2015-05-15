@@ -393,7 +393,7 @@ d1 = dd %>%
              -1 * responseNum))
 
 # set contrasts ----
-# contrasts(d1$pair) = as.matrix(c1)
+contrasts(d1$pair) = as.matrix(c1)
 
 r0 = lm(responseNumFlip ~ pair, d1); summary(r0)
 r1 = lmer(responseNumFlip ~ pair + (1 | subid), d1); summary(r1)
