@@ -392,13 +392,148 @@ d1 = dd %>%
                           "car.stapler",
                           NA),
                         NA)))))))))) %>%
-  mutate(pair = factor(pair),
-         predicate = factor(predicate),
+  mutate(pair = factor(pair,
+                       levels = c("grownup.kid",
+                                  "grownup.baby",
+                                  "kid.baby",
+                                  "grownup.dog",
+                                  "kid.dog",
+                                  "baby.dog",
+                                  "grownup.bear",
+                                  "kid.bear",
+                                  "baby.bear",
+                                  "grownup.bug",
+                                  "kid.bug",
+                                  "baby.bug",
+                                  "grownup.robot",
+                                  "kid.robot",
+                                  "baby.robot",
+                                  "grownup.computer",
+                                  "kid.computer",
+                                  "baby.computer",
+                                  "grownup.car",
+                                  "kid.car",
+                                  "baby.car",
+                                  "grownup.stapler",
+                                  "kid.stapler",
+                                  "baby.stapler",
+                                  "dog.bear",
+                                  "dog.bug",
+                                  "bear.bug",
+                                  "dog.robot",
+                                  "bear.robot",
+                                  "bug.robot",
+                                  "dog.computer",
+                                  "bear.computer",
+                                  "bug.computer",
+                                  "dog.car",
+                                  "bear.car",
+                                  "bug.car",
+                                  "dog.stapler",
+                                  "bear.stapler",
+                                  "bug.stapler",
+                                  "robot.computer",
+                                  "robot.car",
+                                  "computer.car",
+                                  "robot.stapler",
+                                  "computer.stapler",
+                                  "car.stapler")),
+         predicate = factor(predicate, 
+                            levels = c("hunger", "feelings", "thinking")),
          responseNumFlip = 
            ifelse(
              substr(leftCharacter,1,3) == substr(pair,1,3),
              responseNum,
-             -1 * responseNum))
+             -1 * responseNum),
+         pairCat = 
+           # check if there is a human
+           ifelse(
+             grepl("grownup", pair) == T | 
+               grepl("kid", pair) == T |
+               grepl("baby", pair) == T,
+             # if there is, check if there are two humans
+             ifelse(
+               grepl("grownup.kid", pair) == T | 
+                 grepl("grownup.baby", pair) == T |
+                 grepl("kid.baby", pair) == T,
+               # if there are, done
+               "human.human",
+               # if not, check if there is an animal
+               ifelse(
+                 grepl("dog", pair) == T | 
+                   grepl("bear", pair) == T |
+                   grepl("bug", pair) == T,
+                 # if there is, done
+                 "human.animal",
+                 # if not, check if there is a tech
+                 ifelse(
+                   grepl("robot", pair) == T | 
+                     grepl("computer", pair) == T |
+                     grepl("car", pair) == T,
+                   # if there is, done
+                   "human.tech",
+                   # if not, check if there is a stapler
+                   ifelse(
+                     grepl("stapler", pair) == T,
+                     # if there is, done
+                     "control",
+                     # if not, error
+                     NA)))),
+             # if not, check if there is an animal
+             ifelse(
+               grepl("dog", pair) == T | 
+                 grepl("bear", pair) == T |
+                 grepl("bug", pair) == T,
+               # if there is, check if there are two animals
+               ifelse(
+                 grepl("dog.bear", pair) == T | 
+                   grepl("dog.bug", pair) == T |
+                   grepl("bear.bug", pair) == T,
+                 # if there are, done
+                 "animal.animal",
+                 # if not, check if there is a tech
+                 ifelse(
+                   grepl("robot", pair) == T | 
+                     grepl("computer", pair) == T |
+                     grepl("car", pair) == T,
+                   # if there is, done
+                   "animal.tech",
+                   # if not, check if there is a stapler
+                   ifelse(
+                     grepl("stapler", pair) == T,
+                     # if there is, done
+                     "control",
+                     # if not, error
+                     NA))),
+               # if not, check if there is a tech
+               ifelse(
+                 grepl("robot", pair) == T | 
+                   grepl("computer", pair) == T |
+                   grepl("car", pair) == T,
+                 # if there is, check if there are two techs
+                 ifelse(
+                   grepl("robot.computer", pair) == T | 
+                     grepl("robot.car", pair) == T |
+                     grepl("computer.car", pair) == T,
+                   # if there are, done
+                   "tech.tech",
+                   # if not, check if there is a stapler
+                   ifelse(
+                     grepl("stapler", pair) == T,
+                     # if there is, done
+                     "control",
+                     # if not, error
+                     NA)),
+                 # if not, error
+                 NA)))) %>%
+  mutate(pairCat = factor(pairCat,
+                          levels = c("human.human",
+                                     "animal.animal",
+                                     "tech.tech",
+                                     "human.animal",
+                                     "human.tech",
+                                     "animal.tech",
+                                     "control")))
 
 # set contrasts ----
 contrasts(d1$pair) = as.matrix(c1)
@@ -411,4 +546,47 @@ r1 = lmer(responseNumFlip ~ pair + (1 | subid), d1); summary(r1)
 r2 = lmer(responseNumFlip ~ pair + predicate + (1 | subid), d1); summary(r2)
 r3 = lmer(responseNumFlip ~ pair * predicate + (1 | subid), d1); summary(r3)
 anova(r1, r2, r3)
+  
+# plot
+plotTable = d1 %>% 
+  group_by(predicate, pairCat, pair) %>% 
+  summarise(mean = mean(responseNumFlip, na.rm = T),
+            sd = sd(responseNumFlip, na.rm = T),
+            n = length(responseNumFlip))
+
+ggplot(aes(x = reorder(pair, 
+                       as.numeric(
+                         factor(pairCat,
+                                levels = c("human.human",
+                                           "animal.animal",
+                                           "tech.tech",
+                                           "human.animal",
+                                           "human.tech",
+                                           "animal.tech",
+                                           "control")))), 
+           y = mean, 
+           fill = pairCat), 
+       data = plotTable) +
+  facet_grid(predicate ~ .,
+             labeller = labeller(predicate = c("hunger" = "...get hungry",
+                                               "feelings" = "...have feelings",
+                                               "thinking" = "...think"))) +
+  geom_bar(stat = "identity", position = "identity") +
+  geom_errorbar(aes(ymin = mean - 2*sd/sqrt(n),
+                    ymax = mean + 2*sd/sqrt(n),
+                    width = 0.1)) +
+  theme_bw() +
+  scale_fill_brewer(type = "qual",
+                    palette = 2) +
+  theme(text = element_text(size = 20),
+#         legend.position = "bottom",
+        axis.text.x = element_text(angle = 60,
+                                   hjust = 1)) +
+  labs(title = "MEAN COMPARISON SCORES\nby character pair\n",
+       x = "\nCHARACTER PAIR",
+       y = "MEAN RESPONSE\n-2 (-1): 1st character is much (slightly) more likely to...,\n0: characters are both equally likely to...,\n+2 (+1): 2nd character is much (slightly) more likely to...\n",
+       fill = "PAIR CATEGORY")
+
+
+  
   
