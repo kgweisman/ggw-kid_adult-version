@@ -587,6 +587,41 @@ ggplot(aes(x = reorder(pair,
        y = "MEAN RESPONSE\n-2 (-1): 1st character is much (slightly) more likely to...,\n0: characters are both equally likely to...,\n+2 (+1): 2nd character is much (slightly) more likely to...\n",
        fill = "PAIR CATEGORY")
 
+# looking only at thinking
+ggplot(aes(x = reorder(pair, 
+                       as.numeric(
+                         factor(pairCat,
+                                levels = c("human.human",
+                                           "animal.animal",
+                                           "tech.tech",
+                                           "human.animal",
+                                           "human.tech",
+                                           "animal.tech",
+                                           "control")))), 
+           y = mean, 
+           fill = pairCat), 
+       data = plotTable %>% filter(predicate == "thinking")) +
+  facet_grid(predicate ~ .,
+             labeller = labeller(predicate = c("hunger" = "...get hungry",
+                                               "feelings" = "...have feelings",
+                                               "thinking" = "...think"))) +
+  geom_bar(stat = "identity", position = "identity") +
+  geom_errorbar(aes(ymin = mean - 2*sd/sqrt(n),
+                    ymax = mean + 2*sd/sqrt(n),
+                    width = 0.1)) +
+  theme_bw() +
+  scale_fill_brewer(type = "qual",
+                    palette = 2) +
+  theme(text = element_text(size = 20),
+        legend.position = "none",
+        axis.text.x = element_text(angle = 60,
+                                   hjust = 1)) +
+  labs(title = "MEAN COMPARISON SCORES\nby character pair\n(THINKING only)\n",
+       x = "\nCHARACTER PAIR",
+#        y = "MEAN RESPONSE\n-2 (-1): 1st character is much (slightly) more likely to...,\n0: characters are both equally likely to...,\n+2 (+1): 2nd character is much (slightly) more likely to...\n",
+#        fill = "PAIR CATEGORY"
+)
+
 
   
   
